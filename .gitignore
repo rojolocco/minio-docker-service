@@ -6,5 +6,5 @@
 docker-compose.dev.yml
 
 # minio data
-config/*
-data/*
+config/
+data/
