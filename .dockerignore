@@ -8,3 +8,7 @@ docker-compose.yml
 # Ignorar archivos de Git
 .git
 .gitignore
+
+# Ignorar archivos de documentación
+README.md
+LICENSE
