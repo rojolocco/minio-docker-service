@@ -1,134 +1,69 @@
-# Servicio Minio
+# n8n Workflow Automation
 
-Este directorio contiene la configuración necesaria para levantar un servicio de Minio utilizando Docker Compose. Está preparado tanto para entornos de desarrollo como de producción, con persistencia de datos y seguridad básica.
+This project provides a Docker setup for running n8n, a powerful workflow automation tool that allows you to connect various services and automate tasks.
 
----
+## Description
 
-## **Estructura de Archivos**
+This repository contains Docker configurations to easily deploy n8n. n8n is an open-source workflow automation tool that enables you to create complex workflows by connecting different services and APIs without writing code.
 
-```plaintext
-minio/
-├── .env.dev                     # Variables de entorno para desarrollo
-├── .env.prod                    # Variables de entorno para producción
-├── docker-compose.dev.yml       # Docker Compose para desarrollo
-├── docker-compose.yml           # Docker Compose para producción
-├── data/                        # Carpeta para persistencia de datos (creada automáticamente)
-├── config/                      # Carpeta para configuración de Minio (creada automáticamente)
-```
+## Services
 
----
+- **n8n**: The main service that runs the n8n workflow automation tool.
+  - **Container Name**: auto
+  - **Image**: docker.n8n.io/n8nio/n8n
+  - **Ports**: Exposed on port (5678)
+  - **Volumes**: Data is persisted in `n8n_data` volume, mapped to `/home/node/.n8n`
+  - **Environment Variables**: Loaded from `.env`
+  - **Restart Policy**: Always restart the container
+  - **Resource Limits**: Memory limit of `1G` and CPU limit of `1`
 
-## **Requisitos Previos**
+## Installation
 
-1. Docker y Docker Compose instalados.
-2. Una red externa llamada `caddy_network` creada previamente:
+1. Clone the repository:
 
    ```bash
-   docker network create caddy_network
+   git clone https://github.com/yourusername/your-repo.git
    ```
 
----
+2. Navigate to the project directory:
 
-## **Configuración de Variables de Entorno**
+   ```bash
+   cd your-repo
+   ```
 
-Define las credenciales y ajustes del servicio en los archivos `.env.dev` y `.env.prod`.
+3. Start the services using Docker Compose:
 
-### `.env.dev` (Desarrollo)
+   ```bash
+   docker-compose up -d
+   ```
 
-```plaintext
-MINIO_ROOT_USER=dev_minio_user
-MINIO_ROOT_PASSWORD=dev_minio_password
-```
+## Usage
 
-### `.env.prod` (Producción)
+- Access n8n at [http://localhost:5678](http://localhost:5678) to create and manage your workflows.
 
-```plaintext
-MINIO_ROOT_USER=prod_minio_user
-MINIO_ROOT_PASSWORD=prod_minio_password
-```
+## Contributing
 
-> **Nota:** Asegúrate de que estos archivos estén protegidos y excluidos del control de versiones mediante `.gitignore`.
+1. Fork the repository.
+2. Create a new branch:
 
----
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
 
-## **Uso**
+3. Make your changes and commit them:
 
-### **Levantar el servicio en desarrollo**
+   ```bash
+   git commit -m "Add your message"
+   ```
 
-```bash
-docker-compose -f docker-compose.dev.yml up -d
-```
+4. Push to the branch:
 
-### **Levantar el servicio en producción**
+   ```bash
+   git push origin feature/YourFeature
+   ```
 
-```bash
-docker-compose -f docker-compose.yml up -d
-```
+5. Open a pull request.
 
-### **Detener el servicio**
+## License
 
-```bash
-docker-compose down
-```
-
-### **Verificar el estado de los contenedores**
-
-```bash
-docker ps
-```
-
----
-
-## **Acceso a la Consola de Minio**
-
-Puedes acceder a la consola de administración de Minio en `http://<tu_ip>:9001`. Utiliza las credenciales definidas en los archivos `.env.dev` o `.env.prod`.
-
----
-
-## **Persistencia de Datos**
-
-Los datos de Minio se almacenan en dos volúmenes:
-
-- **minio_data**: Almacena los objetos subidos a Minio.
-- **minio_config**: Almacena la configuración de Minio.
-
-Estos volúmenes aseguran que los datos y la configuración no se pierdan al detener o reiniciar los contenedores.
-
-### **Ubicación del volumen:**
-
-Los volúmenes son gestionados por Docker y no están directamente accesibles desde el sistema de archivos.
-
-Para eliminar los datos almacenados:
-
-```bash
-docker volume rm minio_minio_data minio_minio_config
-```
-
----
-
-## **Solución de Problemas**
-
-### Error: `Failed to authenticate`
-
-- Asegúrate de que las credenciales en los archivos `.env` coincidan con las utilizadas para acceder a la consola de Minio.
-- Verifica que los contenedores estén conectados a la red `caddy_network` correctamente.
-
-### Error: `Address already in use`
-
-- Asegúrate de que los puertos `9000` y `9001` no estén siendo utilizados por otro servicio. Puedes cambiar los puertos en el archivo `docker-compose` si es necesario.
-
----
-
-## **Contribución**
-
-Si deseas mejorar este servicio o agregar nuevas funcionalidades, sigue estos pasos:
-
-1. Haz un fork de este repositorio.
-2. Realiza tus cambios en una rama nueva.
-3. Envía un pull request con tus mejoras.
-
----
-
-## **Licencia**
-
-Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

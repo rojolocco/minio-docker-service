@@ -3,7 +3,7 @@
 .env.dev
 
 # docker
-docker-compose.dev.yml
+docker-compose.dev.yaml
 
 # minio data
 config/
